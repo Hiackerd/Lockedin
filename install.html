@@ -39,7 +39,6 @@
             font-size: 32px;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #eef2f6;
         }
 
         .subtitle {
@@ -79,7 +78,6 @@
         .step-title {
             font-size: 18px;
             font-weight: 600;
-            color: #eef2f6;
         }
 
         .step-content {
@@ -110,29 +108,10 @@
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            transition: background 0.2s;
         }
 
         .button:hover {
             background: #4a63a3;
-        }
-
-        .button.secondary {
-            background: #2c313d;
-            color: #eef2f6;
-        }
-
-        .button.secondary:hover {
-            background: #323844;
-        }
-
-        .link {
-            color: #5f7abf;
-            text-decoration: none;
-        }
-
-        .link:hover {
-            text-decoration: underline;
         }
 
         .footer {
@@ -143,29 +122,13 @@
             color: #9aa8b9;
             font-size: 14px;
         }
-
-        .warning {
-            background: rgba(181, 90, 90, 0.1);
-            border-left: 3px solid #b55a5a;
-            padding: 16px;
-            border-radius: 8px;
-            margin: 20px 0;
-            color: #9aa8b9;
-            font-size: 14px;
-        }
-
-        .warning strong {
-            color: #b55a5a;
-            display: block;
-            margin-bottom: 4px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
             <h1>LockedIn</h1>
-            <div class="subtitle">Blockiere Ablenkungen. Kontrolliere deine Zeit.</div>
+            <div class="subtitle">Blockiere Ablenkungen · Kontrolliere deine Zeit</div>
 
             <div class="step">
                 <div class="step-header">
@@ -173,7 +136,7 @@
                     <div class="step-title">Extension herunterladen</div>
                 </div>
                 <div class="step-content">
-                    <p style="margin-bottom: 12px;">Lade alle benötigten Dateien als ZIP herunter.</p>
+                    <p style="margin-bottom: 16px;">Lade alle benötigten Dateien herunter und entpacke sie.</p>
                     <a href="https://github.com/Hiackerd/Lockedin/raw/main/extension.zip" class="button">Extension herunterladen</a>
                 </div>
             </div>
@@ -181,48 +144,32 @@
             <div class="step">
                 <div class="step-header">
                     <div class="step-number">2</div>
-                    <div class="step-title">Extension entpacken</div>
+                    <div class="step-title">In Chrome laden</div>
                 </div>
                 <div class="step-content">
-                    <p>Entpacke die ZIP-Datei in einen Ordner deiner Wahl.</p>
+                    <p>Öffne Chrome und gehe zu:</p>
+                    <div class="code-block">chrome://extensions/</div>
+                    <p>Aktiviere oben rechts den Entwicklermodus.</p>
+                    <p>Klicke auf "Entpackte Erweiterung laden" und wähle den entpackten Ordner aus.</p>
                 </div>
             </div>
 
             <div class="step">
                 <div class="step-header">
                     <div class="step-number">3</div>
-                    <div class="step-title">In Chrome laden</div>
+                    <div class="step-title">Automatische Verbindung</div>
                 </div>
                 <div class="step-content">
-                    <p>Öffne Chrome und gehe zu:</p>
-                    <div class="code-block">chrome://extensions/</div>
-                    <p style="margin: 12px 0;">Aktiviere oben rechts den <strong>Entwicklermodus</strong>.</p>
-                    <p>Klicke auf <strong>"Entpackte Erweiterung laden"</strong> und wähle den entpackten Ordner aus.</p>
+                    <p>Öffne jetzt die Control App:</p>
+                    <div style="margin: 16px 0;">
+                        <a href="https://hiackerd.github.io/Lockedin/" class="button" style="background: #2c313d;">Zur Control App</a>
+                    </div>
+                    <p>Die Extension überträgt ihre ID automatisch an die Web-App. Keine manuelle Eingabe nötig!</p>
                 </div>
-            </div>
-
-            <div class="step">
-                <div class="step-header">
-                    <div class="step-number">4</div>
-                    <div class="step-title">Fertig</div>
-                </div>
-                <div class="step-content">
-                    <p>Die Extension ist jetzt installiert. Gehe zurück zur <a href="https://hiackerd.github.io/Lockedin/" class="link">Control App</a> und beginne mit dem Blockieren.</p>
-                </div>
-            </div>
-
-            <div class="warning">
-                <strong>Wichtig</strong>
-                Nach der Installation muss die Extension in Chrome sichtbar sein. Bei Problemen lade die Seite neu.
-            </div>
-
-            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 24px;">
-                <a href="https://hiackerd.github.io/Lockedin/" class="button secondary">Zur Control App</a>
-                <a href="https://github.com/Hiackerd/Lockedin" class="button secondary">GitHub Repository</a>
             </div>
 
             <div class="footer">
-                LockedIn · Fokus Blocker · Version 1.0
+                LockedIn · Version 1.0
             </div>
         </div>
     </div>
