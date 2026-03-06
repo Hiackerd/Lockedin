@@ -1,8 +1,6 @@
-// app.js - LockedIn Control Logic
+// app.js - Mit automatischer ID-Erkennung
 
-const EXTENSION_ID = 'kokkfklcjolepchlldhceaahdhmkinim';
-const WEBSITE_URL = 'https://hiackerd.github.io/Lockedin/';
-
+let EXTENSION_ID = '';
 let extensionConnected = false;
 let blockedSites = [];
 let timeLimits = {};
@@ -11,8 +9,23 @@ let usageToday = {};
 let globalBlocking = true;
 let stats = { blockedCount: 0 };
 
+// Auf ID von Extension warten
+window.addEventListener('message', function(event) {
+    if (event.data.type === 'EXTENSION_ID_FROM_EXTENSION') {
+        console.log('ID von Extension erhalten:', event.data.id);
+        EXTENSION_ID = event.data.id;
+        localStorage.setItem('extensionId', EXTENSION_ID);
+        checkExtension();
+    }
+});
+
+// Auch beim Laden prüfen ob ID gespeichert
 document.addEventListener('DOMContentLoaded', function() {
-    checkExtension();
+    const savedId = localStorage.getItem('extensionId');
+    if (savedId) {
+        EXTENSION_ID = savedId;
+        checkExtension();
+    }
     
     document.getElementById('globalToggle').addEventListener('click', toggleGlobal);
     loadLocalData();
@@ -20,8 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function checkExtension() {
     const statusEl = document.getElementById('connectionStatus');
-    statusEl.textContent = 'Verbindung prüfen...';
-    statusEl.className = 'status';
+    
+    if (!EXTENSION_ID) {
+        statusEl.textContent = 'Warte auf Extension...';
+        return;
+    }
     
     try {
         chrome.runtime.sendMessage(EXTENSION_ID, { type: 'ping' }, function(response) {
@@ -34,28 +50,18 @@ function checkExtension() {
             } else {
                 extensionConnected = false;
                 statusEl.textContent = 'Nicht verbunden';
-                showInstallHint();
+                statusEl.classList.remove('connected');
             }
         });
     } catch (e) {
         extensionConnected = false;
         statusEl.textContent = 'Extension nicht gefunden';
-        showInstallHint();
+        statusEl.classList.remove('connected');
     }
 }
 
-function showInstallHint() {
-    const container = document.getElementById('sitesContainer');
-    container.innerHTML = `
-        <div class="empty-state">
-            <p style="margin-bottom: 16px;">Extension nicht installiert</p>
-            <a href="install.html" class="button">Installationsanleitung</a>
-        </div>
-    `;
-}
-
 function sendToExtension(message, callback) {
-    if (!extensionConnected) return;
+    if (!extensionConnected || !EXTENSION_ID) return;
     
     try {
         chrome.runtime.sendMessage(EXTENSION_ID, message, function(response) {
@@ -131,12 +137,12 @@ function renderSitesList() {
             <div class="site-card">
                 <div class="site-header">
                     <span class="site-url">${site}</span>
-                    <button class="button small secondary" onclick="removeSite('${site}')">Entfernen</button>
+                    <button class="button small" onclick="removeSite('${site}')">Entfernen</button>
                 </div>
                 
                 <div class="limit-controls">
                     <div class="limit-item">
-                        <label>Limit:</label>
+                        <label>Limit (min):</label>
                         <input type="number" id="limit-${site}" value="${limit}" min="0" placeholder="∞">
                         <button class="button small" onclick="setTimeLimit('${site}')">Setzen</button>
                     </div>
@@ -245,6 +251,7 @@ function toggleGlobal() {
     });
 }
 
+// Funktionen global machen
 window.addNewSite = addNewSite;
 window.removeSite = removeSite;
 window.setTimeLimit = setTimeLimit;
