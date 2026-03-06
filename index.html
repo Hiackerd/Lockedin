@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LockedIn · Control</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1e26;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #eef2f6;
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #eef2f6;
+        }
+
+        .status {
+            background: #2c313d;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #9aa8b9;
+        }
+
+        .status.connected {
+            background: rgba(107, 143, 122, 0.1);
+            color: #6b8f7a;
+            border: 1px solid rgba(107, 143, 122, 0.2);
+        }
+
+        .global-card {
+            background: #232832;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .global-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .global-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .global-subtitle {
+            color: #9aa8b9;
+            font-size: 14px;
+        }
+
+        .toggle {
+            width: 60px;
+            height: 30px;
+            background: #2c313d;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .toggle.active {
+            background: #5f7abf;
+        }
+
+        .toggle-knob {
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: 0.2s;
+        }
+
+        .toggle.active .toggle-knob {
+            left: 32px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #232832;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .stat-label {
+            color: #9aa8b9;
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 600;
+            color: #eef2f6;
+        }
+
+        .add-section {
+            background: #232832;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #eef2f6;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-group input {
+            flex: 1;
+            background: #1a1e26;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px;
+            border-radius: 12px;
+            color: #eef2f6;
+            font-size: 16px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #5f7abf;
+        }
+
+        .button {
+            background: #5f7abf;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 15px;
+        }
+
+        .button:hover {
+            background: #4a63a3;
+        }
+
+        .button.secondary {
+            background: #2c313d;
+            color: #eef2f6;
+        }
+
+        .button.small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .sites-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .site-card {
+            background: #232832;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .site-url {
+            font-size: 18px;
+            font-weight: 600;
+            color: #eef2f6;
+            font-family: monospace;
+        }
+
+        .limit-controls {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .limit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .limit-item label {
+            color: #9aa8b9;
+            font-size: 14px;
+        }
+
+        .limit-item input {
+            background: #1a1e26;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #eef2f6;
+            width: 80px;
+        }
+
+        .limit-item input[type="time"] {
+            width: 100px;
+        }
+
+        .usage-info {
+            margin-left: auto;
+            color: #9aa8b9;
+            font-size: 14px;
+        }
+
+        .usage-info span {
+            color: #5f7abf;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #9aa8b9;
+            background: #232832;
+            border-radius: 16px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            color: #9aa8b9;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LockedIn Control</h1>
+            <div id="connectionStatus" class="status">Verbindung prüfen...</div>
+        </div>
+
+        <div class="global-card">
+            <div class="global-row">
+                <div>
+                    <div class="global-title">Globaler Blockiermodus</div>
+                    <div class="global-subtitle">Wenn deaktiviert, werden keine Seiten blockiert</div>
+                </div>
+                <div id="globalToggle" class="toggle">
+                    <div class="toggle-knob"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Heute blockiert</div>
+                <div class="stat-value" id="statsBlocked">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Blockierte Seiten</div>
+                <div class="stat-value" id="statsSites">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Genutzte Minuten</div>
+                <div class="stat-value" id="statsUsage">0</div>
+            </div>
+        </div>
+
+        <div class="add-section">
+            <h2>Seite blockieren</h2>
+            <div class="input-group">
+                <input type="text" id="newSiteInput" placeholder="youtube.com, instagram.com, tiktok.com">
+                <button class="button" onclick="addNewSite()">Hinzufügen</button>
+            </div>
+        </div>
+
+        <h2>Blockierte Seiten</h2>
+        <div id="sitesContainer" class="sites-list">
+            <div class="empty-state">Keine blockierten Seiten</div>
+        </div>
+
+        <div class="footer">
+            <a href="https://hiackerd.github.io/Lockedin/install.html" style="color: #5f7abf; text-decoration: none; margin-right: 20px;">Installation</a>
+            LockedIn · Version 1.0
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
