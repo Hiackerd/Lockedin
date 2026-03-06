@@ -37,7 +37,6 @@
         h1 {
             font-size: 28px;
             font-weight: 600;
-            color: #eef2f6;
         }
 
         .status {
@@ -147,7 +146,6 @@
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 16px;
-            color: #eef2f6;
         }
 
         .input-group {
@@ -186,11 +184,6 @@
             background: #4a63a3;
         }
 
-        .button.secondary {
-            background: #2c313d;
-            color: #eef2f6;
-        }
-
         .button.small {
             padding: 8px 16px;
             font-size: 13px;
@@ -219,7 +212,6 @@
         .site-url {
             font-size: 18px;
             font-weight: 600;
-            color: #eef2f6;
             font-family: monospace;
         }
 
@@ -275,13 +267,12 @@
             border-radius: 16px;
         }
 
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-            color: #9aa8b9;
-            font-size: 13px;
+        .id-section {
+            background: #232832;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
@@ -289,7 +280,7 @@
     <div class="container">
         <div class="header">
             <h1>LockedIn Control</h1>
-            <div id="connectionStatus" class="status">Verbindung prüfen...</div>
+            <div id="connectionStatus" class="status">Warte auf Extension...</div>
         </div>
 
         <div class="global-card">
@@ -330,11 +321,6 @@
         <h2>Blockierte Seiten</h2>
         <div id="sitesContainer" class="sites-list">
             <div class="empty-state">Keine blockierten Seiten</div>
-        </div>
-
-        <div class="footer">
-            <a href="https://hiackerd.github.io/Lockedin/install.html" style="color: #5f7abf; text-decoration: none; margin-right: 20px;">Installation</a>
-            LockedIn · Version 1.0
         </div>
     </div>
 
